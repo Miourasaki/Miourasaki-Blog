@@ -1,43 +1,42 @@
-name: Deploy to Web Branch
+name: GitHubPages
 
 on:
   push:
     branches:
-      - master  # 触发动作的分支
+      - master # 指定了用于部署的源码所在的分支
+    paths-ignore:
+      - "README.md"
+      - ".env"
+      - ".gitignore"
+      - ".gitmodules"
+      - "bin"
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-18.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v2 # 上文提到了第一步必须使用 checkout Action
         with:
-          fetch-depth: 0  # 获取全部历史以便能够操作各个分支
+          submodules: recursive # 获取 Hugo 的主题，主题放在 submodule 中 (true OR recursive)
+          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "mio@chyan.moe"
-          git config --global user.name "Miourasaki"
+      - name: Read .env
+        id: hugo-version
+        run: | # 从 .env 文件中读取 HUGO 的版本号
+          . ./.env
+          echo "::set-output name=HUGO_VERSION::${HUGO_VERSION}"
 
-      - name: Copy public to web branch
-        run: |
-          # 创建一个临时目录来存放public目录的内容
-          mkdir tmp-public
-          # 复制public目录内容到临时目录
-          cp -r public/* tmp-public
-          # 切换到web分支，如果不存在则创建并从空白开始
-          git checkout web || git checkout --orphan web
-          # 清除web分支当前的所有文件（如果有）
-          git rm -rf . || true
-          # 将临时目录中的内容移动到工作目录
-          mv tmp-public/* . && mv tmp-public/.* . || true
-          # 删除临时目录
-          rmdir tmp-public
-          # 检查是否有文件变动（避免无变动时的失败提交）
-          if git status | grep -q "Changes to be committed"; then
-            git add .
-            git commit -m "Update web content"
-            git push origin web
-          else
-            echo "No changes detected, skipping."
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2 # 使用第三方 Action 进行构建
+        with:
+          hugo-version: "${{ steps.hugo-version.outputs.HUGO_VERSION }}"
+          # extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3 # 使用第三方 Action 把构建完成的 Artifact 部署到指定分支
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
