@@ -1,7 +1,7 @@
 baseURL = 'http://blog.mio.am/'
 languageCode = 'zh-cn'
 title = "<Miourasaki>'s Blog"
-theme = "paper"
+theme = "new_paper"
 
 disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
 
