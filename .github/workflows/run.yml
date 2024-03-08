@@ -1,0 +1,39 @@
+name: Deploy to Web Branch
+
+on:
+  push:
+    branches:
+      - main  # 触发动作的分支
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 获取全部历史以便能够操作各个分支
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "mio@chyan.moe"
+          git config --global user.name "Miourasaki"
+
+      - name: Build and Deploy
+        run: |
+          # 切换到web分支，如果不存在则创建
+          git checkout web || git checkout -b web
+          # 删除当前分支下所有文件（除了.git）
+          git rm -rf .
+          # 检出main分支的public目录内容
+          git checkout main -- public
+          # 移动public目录下的所有文件到根目录
+          mv public/* . && mv public/.* . || true
+          # 删除public目录
+          rmdir public
+          # 添加更改到暂存区并提交
+          git add .
+          git commit -m "Deploy website"
+          # 推送到远程的web分支
+          git push origin web

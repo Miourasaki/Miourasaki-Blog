@@ -10,11 +10,11 @@ disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
   color = 'light'                           # linen, wheat, gray, light
 
   # header social icons
-  twitter = 'Miourasaki'               # twitter.com/YOUR_TWITTER_ID
-  github = 'Miourasaki'                 # github.com/YOUR_GITHUB_ID
-  instagram = 'YOUR_INSTAGRAM_ID'           # instagram.com/YOUR_INSTAGRAM_ID
-  linkedin = 'YOUR_LINKEDIN_ID'             # linkedin.com/in/YOUR_LINKEDIN_ID
-  mastodon = 'https://chyan.moe/@mio'           # e.g. 'https://mastodon.instance/@xxx'
+  twitter = 'https://twitter.com/@Miourasaki'               # twitter.com/YOUR_TWITTER_ID
+  github = 'https://github.com/Miourasaki'                 # github.com/YOUR_GITHUB_ID
+  bilibili = 'https://space.bilibili.com/94209973'           # instagram.com/YOUR_INSTAGRAM_ID
+  telegrame = 'https://1oli.cn/tg'             # linkedin.com/in/YOUR_LINKEDIN_ID
+  website = 'https://mio.am'           # e.g. 'https://mastodon.instance/@xxx'
   rss = true                                # show rss icon
 
   # home page profile
