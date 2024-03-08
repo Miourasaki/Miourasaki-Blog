@@ -20,20 +20,24 @@ jobs:
           git config --global user.email "mio@chyan.moe"
           git config --global user.name "Miourasaki"
 
-      - name: Build and Deploy
+      - name: Copy public to web branch
         run: |
-          # 切换到web分支，如果不存在则创建
-          git checkout web || git checkout -b web
-          # 删除当前分支下所有文件（除了.git）
-          git rm -rf .
-          # 检出main分支的public目录内容
-          git checkout main -- public
-          # 移动public目录下的所有文件到根目录
-          mv public/* . && mv public/.* . || true
-          # 删除public目录
-          rmdir public
-          # 添加更改到暂存区并提交
-          git add .
-          git commit -m "Deploy website"
-          # 推送到远程的web分支
-          git push origin web
+          # 创建一个临时目录来存放public目录的内容
+          mkdir tmp-public
+          # 复制public目录内容到临时目录
+          cp -r public/* tmp-public
+          # 切换到web分支，如果不存在则创建并从空白开始
+          git checkout web || git checkout --orphan web
+          # 清除web分支当前的所有文件（如果有）
+          git rm -rf . || true
+          # 将临时目录中的内容移动到工作目录
+          mv tmp-public/* . && mv tmp-public/.* . || true
+          # 删除临时目录
+          rmdir tmp-public
+          # 检查是否有文件变动（避免无变动时的失败提交）
+          if git status | grep -q "Changes to be committed"; then
+            git add .
+            git commit -m "Update web content"
+            git push origin web
+          else
+            echo "No changes detected, skipping."
