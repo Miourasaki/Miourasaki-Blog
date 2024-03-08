@@ -1,0 +1,42 @@
+baseURL = 'http://blog.mio.am/'
+languageCode = 'zh-cn'
+title = "<Miourasaki>'s Blog"
+theme = "paper"
+
+disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
+
+[params]
+  # color style
+  color = 'light'                           # linen, wheat, gray, light
+
+  # header social icons
+  twitter = 'Miourasaki'               # twitter.com/YOUR_TWITTER_ID
+  github = 'Miourasaki'                 # github.com/YOUR_GITHUB_ID
+  instagram = 'YOUR_INSTAGRAM_ID'           # instagram.com/YOUR_INSTAGRAM_ID
+  linkedin = 'YOUR_LINKEDIN_ID'             # linkedin.com/in/YOUR_LINKEDIN_ID
+  mastodon = 'https://chyan.moe/@mio'           # e.g. 'https://mastodon.instance/@xxx'
+  rss = true                                # show rss icon
+
+  # home page profile
+  avatar = 'mio@chyan.moe'                 # gravatar email or image url
+  name = '白澪'
+  bio = '#少女祈祷中~'
+
+
+  # misc
+  disableHLJS = true                        # disable highlight.js
+  disablePostNavigation = true              # disable post navigation
+  monoDarkIcon = true                       # show monochrome dark mode icon
+  gravatarCdn = 'https://cdn.lolis.fyi/gravatar/'         # e.g. 'https://cdn.v2ex.com/gravatar/'
+  math = true                               # enable KaTeX math typesetting globally
+  graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
+
+  # giscus
+[params.giscus]
+  repo = 'YOUR_GISCUS_REPO'                 # see https://giscus.app for more details
+  repoId = 'YOUR_GISCUS_REPO_ID'
+  category = 'YOUR__GISCUS_CATEGORY'
+  categoryId = 'YOUR_GISCUS_CATEGORY_ID'
+  mapping = 'pathname'
+  theme = 'light'
+  lang = 'zh-CN'
